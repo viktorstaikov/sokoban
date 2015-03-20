@@ -71,7 +71,7 @@ module.exports = {
 					if (err) {
 						done(err);
 					} else {
-						done(null, token.token);
+						done(null, token);
 					}
 				});
 			}

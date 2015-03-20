@@ -9,7 +9,7 @@ angular.module('SignupCtrl', []).controller('SignupController', ['$scope', '$loc
 		$scope.signup = function () {
 			AuthService.signup($scope.email, $scope.password, function () {
 				$scope.errorMsg = '';
-				$location.path('/');
+				$location.path('/login');
 			}, function (err) {
 				$scope.errorMsg = err;
 			});

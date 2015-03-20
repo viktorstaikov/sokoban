@@ -1,10 +1,10 @@
 angular.module('LoginCtrl', []).controller('LoginController', ['$scope', '$location', 'AuthenticationService',
 	function ($scope, $location, AuthService) {
 
-		$scope.errorMsg = "";
+	$scope.errorMsg = '';
 
-		$scope.email = "";
-		$scope.password = "";
+		$scope.email = '';
+		$scope.password = '';
 
 		$scope.login = function () {
 
@@ -13,7 +13,12 @@ angular.module('LoginCtrl', []).controller('LoginController', ['$scope', '$locat
 				$scope.errorMsg = '';
 
 				var queryParams = $location.search();
-				var url = decodeURIComponent(queryParams['redirect_url']);
+
+				var url = '/';
+				if (queryParams && queryParams['redirect_url']) {
+					url = decodeURIComponent(queryParams['redirect_url']);
+				}
+
 
 				$location.search('redirect_url', null);
 				$location.path(url);

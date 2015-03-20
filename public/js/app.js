@@ -1,9 +1,17 @@
 angular.module('app', [
-	'ngRoute',
-	'appRoutes',
-	'MainCtrl',
-	'PlayCtrl',
-	'LoginCtrl',
-	'SignupCtrl',
-	'AuthService'
-]);
+		'ngRoute',
+		'LocalStorageModule',
+
+		'appRoutes',
+		'MainCtrl',
+		'PlayCtrl',
+		'LoginCtrl',
+		'SignupCtrl',
+		'AuthService'
+	])
+	.config(function (localStorageServiceProvider) {
+		localStorageServiceProvider
+			.setPrefix('sokobanApp')
+			.setStorageType('sessionStorage')
+			.setNotify(true, true)
+	});
