@@ -12,7 +12,7 @@ var port = process.env.PORT || 8080;
 var db = require('./config/db');
 mongoose.connect(db.url);
 
-var passportConfig = require('./app/auth/passport');
+var passportConfig = require('./config/passport');
 passportConfig(passport);
 
 //middlewares ==============================================

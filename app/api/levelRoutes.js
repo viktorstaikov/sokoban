@@ -24,7 +24,7 @@ module.exports = function (app, passport) {
 	router.post('/single', function (req, res) {
 		var newLevel = new Level(req.body);
 		if (!newLevel.valid()) {
-			res.status(403).json({
+			res.status(400).json({
 				error: "Invalid Level dimensions."
 			});
 		}
@@ -38,7 +38,7 @@ module.exports = function (app, passport) {
 		var rawLevels = require('../models/sample-levels');
 
 		if (!Array.isArray(rawLevels)) {
-			res.status(403).json({
+			res.status(400).json({
 				error: "Array must be passed. Fix your sample Levels."
 			});
 		}
@@ -90,7 +90,7 @@ function bulkInsert(req, res, levels) {
 		var newLevel = new Level(levels[i]);
 
 		if (!newLevel.valid()) {
-			res.status(403).json({
+			res.status(400).json({
 				error: "Item at possition " + (i + 1) + " is not a valid Level."
 			});
 			return;

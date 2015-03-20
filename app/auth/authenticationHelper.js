@@ -57,6 +57,7 @@ module.exports = {
 				Token.update(token, {
 					expire: expire
 				});
+				done(null, token.token);
 			} else {
 				var token = new Token();
 

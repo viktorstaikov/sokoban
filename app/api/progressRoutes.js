@@ -30,21 +30,21 @@ module.exports = function (app, passport) {
 			filter.userId = req.query.userId || req.body.userId;
 			filter.levelId = req.query.levelId || req.body.levelId;
 		} else {
-			return res.status(403).json({
+			return res.status(400).json({
 				error: "Either _id or userId + levelId must be provided."
 			})
 		}
 
 		var updateObj = {};
 		if (typeof req.body.status != "number") {
-			return res.status(403).json({
+			return res.status(400).json({
 				error: "Status must be 0, 1, 2 (not started, started, completed)."
 			})
 		}
 		updateObj.status = req.body.status;
 
 		if (!Array.isArray(req.body.board)) {
-			return res.status(403).json({
+			return res.status(400).json({
 				error: "Board must be array of string."
 			})
 		}
