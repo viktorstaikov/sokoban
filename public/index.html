@@ -16,6 +16,7 @@
 
 	<!--controllers-->
 	<script src="js/controllers/MainCtrl.js"></script>
+	<script src="js/controllers/PlayCtrl.js"></script>
 	<!--services-->
 	<script src="js/services/AuthenticationService.js"></script>
 	<!--other-->
@@ -28,14 +29,12 @@
 		
 		<nav class="navbar navbar-inverse">
 			<ul class="nav navbar-nav">
-				<li><a href="/">Home</a></li>
-				<li><a href="/about">About</a></li>
+				<li><a href="#/">Home</a></li>
+				<li><a href="#/play">Play</a></li>
+				<li><a href="#/about">About</a></li>
 			</ul>
 		</nav>
 
-		<p>
-			{{text}}
-		</p>
 		<div ng-view></div>
 	</div>
 

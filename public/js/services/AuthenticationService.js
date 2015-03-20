@@ -1,9 +1,14 @@
 angular.module('AuthService', []).service('AuthenticationService', ['$http', function ($http) {
 
+	var user;
+	var token;
+
+	this.authenticated = function () {
+		return token && user;
+	}
+
 	this.getUser = function () {
-		return {
-			email: "viktor.staiko@gmail.com"
-		};
+		return user;
 	};
 
 	this.login = function (email, password) {
@@ -12,12 +17,22 @@ angular.module('AuthService', []).service('AuthenticationService', ['$http', fun
 				password: password
 			})
 			.success(function (data, status, headers, config) {
-				// this callback will be called asynchronously
-				// when the response is available
+				user = data.user;
+				token = data.token;
 			}).error(function (data, status, headers, config) {
-				// called asynchronously if an error occurs
-				// or server returns response with an error status.
+				// redirect to login form with some message
 			});
 	}
 
+	this.signup = function (email, password) {
+		$http.post('/signup', {
+				email: email,
+				password: password
+			})
+			.success(function (data, status, headers, config) {
+				// decide whether to login the user or redirect to login form
+			}).error(function (data, status, headers, config) {
+				// return to signup form with some message
+			});
+	}
 }]);

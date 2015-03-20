@@ -1,5 +1,5 @@
-angular.module('MainCtrl', []).controller('MainController', ['$scope', 'AuthenticationService', function ($scope, AuthService) {
+angular.module('MainCtrl', []).controller('MainController', ['$scope', '$location', 'AuthenticationService',
+	function ($scope, $location, AuthService) {
 
-	$scope.text = "Hello, " + AuthService.getUser().email;
-
-}]);
+	}
+]);
