@@ -19,7 +19,7 @@ module.exports = function (app, passport) {
 		var email = req.body.email;
 		var password = req.body.password;
 
-		if (!email || !password) {
+		if (!(email && password)) {
 			return res.status(400).send("Bad request. Email and password must be provided.");
 		}
 
@@ -46,8 +46,11 @@ module.exports = function (app, passport) {
 				if (err) {
 					done(err);
 				} else {
+					delete user._id;
+					delete user.password;
+
 					res.json({
-						token: req.token,
+						token: token,
 						user: user
 					});
 				}
@@ -59,7 +62,7 @@ module.exports = function (app, passport) {
 		var email = req.body.email;
 		var password = req.body.password;
 
-		if (!email || !password) {
+		if (!(email && password)) {
 			return res.status(400).send("Bad request. Email and password must be provided.");
 		}
 

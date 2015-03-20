@@ -11,7 +11,7 @@ angular.module('AuthService', []).service('AuthenticationService', ['$http', fun
 		return user;
 	};
 
-	this.login = function (email, password) {
+	this.login = function (email, password, success, error) {
 		$http.post('/login', {
 				email: email,
 				password: password
@@ -19,20 +19,21 @@ angular.module('AuthService', []).service('AuthenticationService', ['$http', fun
 			.success(function (data, status, headers, config) {
 				user = data.user;
 				token = data.token;
+				success();
 			}).error(function (data, status, headers, config) {
-				// redirect to login form with some message
+				error(data);
 			});
 	}
 
-	this.signup = function (email, password) {
+	this.signup = function (email, password, success, error) {
 		$http.post('/signup', {
 				email: email,
 				password: password
 			})
 			.success(function (data, status, headers, config) {
-				// decide whether to login the user or redirect to login form
+				success();
 			}).error(function (data, status, headers, config) {
-				// return to signup form with some message
+				error(data);
 			});
 	}
 }]);

@@ -3,5 +3,7 @@ angular.module('app', [
 	'appRoutes',
 	'MainCtrl',
 	'PlayCtrl',
+	'LoginCtrl',
+	'SignupCtrl',
 	'AuthService'
 ]);
