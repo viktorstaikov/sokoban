@@ -13,19 +13,31 @@
 
 	<script src="libs/angular/angular.min.js"></script>
 	<script src="libs/angular-route/angular-route.min.js"></script>
+
+	<!--controllers-->
+	<script src="js/controllers/MainCtrl.js"></script>
+	<!--services-->
+	<script src="js/services/AuthenticationService.js"></script>
+	<!--other-->
+	<script src="js/appRoutes.js"></script>
+	<script src="js/app.js"></script>
 </head>
 
-<body ng-app="sokoban">
-<div class="container">
-	
-	<nav class="navbar navbar-inverse">
-		<ul class="nav navbar-nav">
-			<li><a href="/home">Home</a></li>
-			<li><a href="/about">About</a></li>
-		</ul>
-	</nav>
+<body ng-app="app">
+	<div class="container" ng-controller="MainController">
+		
+		<nav class="navbar navbar-inverse">
+			<ul class="nav navbar-nav">
+				<li><a href="/">Home</a></li>
+				<li><a href="/about">About</a></li>
+			</ul>
+		</nav>
 
+		<p>
+			{{text}}
+		</p>
+		<div ng-view></div>
+	</div>
 
-</div>
 </body>
 </html>
