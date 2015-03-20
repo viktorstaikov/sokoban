@@ -3,11 +3,11 @@ angular.module('SignupCtrl', []).controller('SignupController', ['$scope', '$loc
 
 		$scope.errorMsg = '';
 
-		$scope.email = '';
-		$scope.password = '';
+		$scope.user = {};
 
 		$scope.signup = function () {
-			AuthService.signup($scope.email, $scope.password, function () {
+
+			AuthService.signup($scope.user, function () {
 				$scope.errorMsg = '';
 				$location.path('/login');
 			}, function (err) {

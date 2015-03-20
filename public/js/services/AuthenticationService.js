@@ -44,11 +44,8 @@ angular.module('AuthService', ['LocalStorageModule']).service('AuthenticationSer
 				});
 		}
 
-		this.signup = function (email, password, success, error) {
-			$http.post('/signup', {
-					email: email,
-					password: password
-				})
+		this.signup = function (user, success, error) {
+			$http.post('/signup', user)
 				.success(function (data, status, headers, config) {
 					success();
 				}).error(function (data, status, headers, config) {

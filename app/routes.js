@@ -80,15 +80,17 @@ module.exports = function (app, passport) {
 			if (user) {
 				return res.status(409).send("User with that email already exists");
 			} else {
-				var newUser = new User();
-
-				newUser.email = email;
+				var newUser = new User(req.body);
 				newUser.password = newUser.generateHash(password);
 
 				newUser.save(function (err) {
 					if (err) {
 						return res.status(500).send(err);
 					}
+
+					delete newUser._id;
+					delete newUser.password;
+
 					return res.json({
 						result: newUser
 					});
