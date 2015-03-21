@@ -1,1 +1,16 @@
-<h1>Play</h1>
+<div class="col-sm-8 col-sm-offset-2">
+
+<ul  class="list-group">
+	<li ng-repeat="level in levels"  class="list-group-item">
+		
+		{{level.Name}} ({{level.Height}}x{{level.Width}})
+		
+		<a class="badge btn btn-default" ng-click="start()">
+			<span ng-show="level.status == 0">Start</span>
+			<span ng-show="level.status == 1">Continue...</span>
+			<span ng-show="level.status == 2">Completed</span>
+		</a>
+	</li>
+</ul>
+
+</div>

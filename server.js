@@ -5,6 +5,7 @@ var passport = require('passport');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
+var serveStatic = require('serve-static');
 
 var port = process.env.PORT || 8080;
 

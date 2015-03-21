@@ -17,10 +17,9 @@ module.exports = function (app, passport) {
 			filter._id = req.query._id;
 		}
 
-		res.json(filter);
-		// Progress.find(filter, function (err, result) {
-		// 	handleResult(err, result, res);
-		// })
+		Progress.find(filter, function (err, result) {
+			handleResult(err, result, res);
+		})
 	});
 
 	router.put('/', function (req, res) {

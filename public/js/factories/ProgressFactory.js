@@ -9,7 +9,7 @@ angular.module('PrgrssFactory', []).factory('ProgressFactory', ['AuthenticationS
 					url: endpoint + '?userId=' + id,
 					method: 'GET',
 					headers: {
-						'Authorization': 'JWT ' + token
+						'Authorization': 'JWT ' + token.token
 					}
 				};
 				return $http(req);
@@ -19,7 +19,7 @@ angular.module('PrgrssFactory', []).factory('ProgressFactory', ['AuthenticationS
 					url: endpoint,
 					method: 'PUT',
 					headers: {
-						'Authorization': 'JWT' + token
+						'Authorization': 'JWT' + token.token
 					},
 					data: {
 						userId: userId,
@@ -34,7 +34,7 @@ angular.module('PrgrssFactory', []).factory('ProgressFactory', ['AuthenticationS
 					url: endpoint,
 					method: 'POST',
 					headers: {
-						'Authorization': 'JWT' + token
+						'Authorization': 'JWT' + token.token
 					},
 					data: {
 						userId: userId,
