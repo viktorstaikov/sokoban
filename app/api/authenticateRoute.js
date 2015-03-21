@@ -14,10 +14,15 @@ module.exports = function (app, passport) {
 		var authorizationHeader = req.headers['authorization'];
 
 		if (!authorizationHeader) {
-			return res.status(401).send('Unauthorized');
+			return res.status(401).send('Unauthorized.');
 		}
 
-		var jwtToken = authorizationHeader;
+		var split = authorizationHeader.split(' ');
+		if (split[0].toLowerCase() != 'jwt') {
+			return res.status(401).send('Unauthorized. Invalid header format.');
+		}
+
+		var jwtToken = split[1];
 
 		authenticationHelper.validToken(jwtToken, function (err, valid) {
 			if (err) {

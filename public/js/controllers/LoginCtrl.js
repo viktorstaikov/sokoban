@@ -1,7 +1,7 @@
 angular.module('LoginCtrl', []).controller('LoginController', ['$scope', '$location', 'AuthenticationService',
 	function ($scope, $location, AuthService) {
 
-	$scope.errorMsg = '';
+		$scope.errorMsg = '';
 
 		$scope.email = '';
 		$scope.password = '';

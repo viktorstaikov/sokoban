@@ -46,8 +46,6 @@ module.exports = function (app, passport) {
 				if (err) {
 					done(err);
 				} else {
-					delete user._id;
-					delete user.password;
 
 					res.json({
 						token: token,

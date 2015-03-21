@@ -2,12 +2,15 @@ angular.module('app', [
 		'ngRoute',
 		'LocalStorageModule',
 
+		'AuthService',
+		'LvlFactory',
+		'PrgrssFactory',
+
 		'appRoutes',
 		'MainCtrl',
 		'PlayCtrl',
 		'LoginCtrl',
-		'SignupCtrl',
-		'AuthService'
+		'SignupCtrl'
 	])
 	.config(function (localStorageServiceProvider) {
 		localStorageServiceProvider

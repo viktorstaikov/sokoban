@@ -7,12 +7,14 @@ angular.module('SignupCtrl', []).controller('SignupController', ['$scope', '$loc
 
 		$scope.signup = function () {
 
-			AuthService.signup($scope.user, function () {
-				$scope.errorMsg = '';
-				$location.path('/login');
-			}, function (err) {
-				$scope.errorMsg = err;
-			});
+			AuthService.signup($scope.user)
+				.success(function () {
+					$scope.errorMsg = '';
+					$location.path('/login');
+				})
+				.error(function (err) {
+					$scope.errorMsg = err;
+				});
 		};
 	}
 ]);
