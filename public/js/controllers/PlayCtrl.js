@@ -2,7 +2,7 @@ angular.module('PlayCtrl', []).controller('PlayController', ['$scope', 'LevelFac
 	function ($scope, LevelFactory, ProgressFactory, AuthenticationService) {
 
 		$scope.start = function () {
-			console.log('1');
+			console.log('start');
 		}
 
 		var user = AuthenticationService.getUser();

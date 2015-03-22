@@ -1,7 +1,10 @@
+
+<sokoban-board></sokoban-board>
+
 <div class="col-sm-8 col-sm-offset-2">
 
 <ul  class="list-group">
-	<li ng-repeat="level in levels"  class="list-group-item">
+	<li ng-repeat="level in levels"  class="list-group-item" onclick="drawGame">
 		
 		{{level.Name}} ({{level.Height}}x{{level.Width}})
 		

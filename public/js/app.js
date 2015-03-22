@@ -6,11 +6,13 @@ angular.module('app', [
 		'LvlFactory',
 		'PrgrssFactory',
 
+		'SokobanBoardDirective',
+
 		'appRoutes',
 		'MainCtrl',
 		'PlayCtrl',
 		'LoginCtrl',
-		'SignupCtrl'
+		'SignupCtrl',
 	])
 	.config(function (localStorageServiceProvider) {
 		localStorageServiceProvider
