@@ -46,7 +46,6 @@ module.exports = function (app, passport) {
 				if (err) {
 					done(err);
 				} else {
-
 					res.json({
 						token: token,
 						user: user
