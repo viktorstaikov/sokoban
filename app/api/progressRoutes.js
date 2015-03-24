@@ -36,12 +36,12 @@ module.exports = function (app, passport) {
 		}
 
 		var updateObj = {};
-		if (typeof req.body.status != "number") {
+		if (typeof req.body.state != "number") {
 			return res.status(400).json({
 				error: "Status must be 0, 1, 2 (not started, started, completed)."
 			})
 		}
-		updateObj.status = req.body.status;
+		updateObj.state = req.body.state;
 
 		if (!Array.isArray(req.body.board)) {
 			return res.status(400).json({

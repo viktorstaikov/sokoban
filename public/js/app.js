@@ -6,7 +6,7 @@ angular.module('app', [
 		'LvlFactory',
 		'PrgrssFactory',
 
-		'SokobanBoardDirective',
+		// 'SokobanBoardDirective',
 
 		'appRoutes',
 		'MainCtrl',

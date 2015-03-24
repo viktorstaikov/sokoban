@@ -14,17 +14,21 @@ angular.module('PrgrssFactory', []).factory('ProgressFactory', ['AuthenticationS
 				};
 				return $http(req);
 			},
-			update: function (userId, gameId, board) {
+			update: function (userId, gameId, board, status) {
+				if (!status) {
+					status = 1;
+				}
 				var req = {
 					url: endpoint,
 					method: 'PUT',
 					headers: {
-						'Authorization': 'JWT' + token.token
+						'Authorization': 'JWT ' + token.token
 					},
 					data: {
 						userId: userId,
-						gameId: gameId,
-						board: board
+						levelId: gameId,
+						board: board,
+						state: status
 					}
 				};
 				return $http(req);
@@ -34,12 +38,13 @@ angular.module('PrgrssFactory', []).factory('ProgressFactory', ['AuthenticationS
 					url: endpoint,
 					method: 'POST',
 					headers: {
-						'Authorization': 'JWT' + token.token
+						'Authorization': 'JWT ' + token.token
 					},
 					data: {
 						userId: userId,
-						gameId: gameId,
-						board: board
+						levelId: gameId,
+						board: board,
+						state: 0
 					}
 				};
 				return $http(req);

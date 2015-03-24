@@ -1,37 +1,15 @@
-angular.module('SokobanBoardDirective', []).directive('sokobanBoard', function () {
+angular.module('PlayCtrl').directive('sokobanBoard', [function () {
   return {
     restrict: 'AE',
     templateUrl: 'js/directives/templates/sokoban-board-template.html',
+    controller: 'PlayController',
     scope: {},
     link: function (scope, element, attrs) {
-      var board = {
-          "_id": "550bfe32c7683c0b6ec637f8",
-          "Height": 10,
-          "Width": 9,
-          "Name": "Fill the hall",
-          "__v": 0,
-          "L": [
-            "  #####",
-            "  #   #",
-            "  #   #",
-            "### * ###",
-            "#  *.*  #",
-            "#  *.*  #",
-            "#  *.*  #",
-            "###$$$###",
-            "  # @ #",
-            "  #####"
-          ],
-          "$$hashKey": "object:6",
-          "status": 0
-        },
-        user = {
-          "_id": "550b03017e0dd8a3457742ca",
-          "password": "$2a$08$QZ35iOcTETG5UU/VLfCpc.hB0S5IPQJMbNMmoMixfkcBocU2EVMX2",
-          "email": "1",
-          "__v": 0,
-          "name": "User1426952298276"
-        };
+      var level,
+        user,
+        board = [''],
+        movesHistory = [],
+        sprite;
 
       var boardObjects = {
         freeCell: " ",
@@ -46,75 +24,68 @@ angular.module('SokobanBoardDirective', []).directive('sokobanBoard', function (
       var cellHeight, cellWidht;
 
       function drawCell(x, y) {
-        var character = board.L[x][y];
-        var color = "#FFFFFF";
-        switch (character) {
-        case boardObjects.wall:
-          color = "#7A7976";
-          break;
-        case boardObjects.crateOnSpot:
-          color = "#00FF00";
-          break;
-        case boardObjects.spot:
-          color = "#0000FF";
-          break;
-        case boardObjects.crate:
-          color = "#FFFF00";
-          break;
-        case boardObjects.player:
-          color = "#FF0000";
-          break;
-        case boardObjects.playerOnSpot:
-          color = "#FF00FF";
-          break;
+        var character = board[x][y];
+
+        var keys = Object.keys(boardObjects);
+        for (var i = 0; i < keys.length; i++) {
+          if (character == boardObjects[keys[i]]) {
+
+            ctx.drawImage(sprite, i * 32, 0, 32, 32, y * cellWidht, x * cellHeight, cellWidht, cellHeight);
+            return;
+          }
         }
 
-        ctx.fillStyle = color;
-
-        ctx.fillRect(y * cellWidht, x * cellHeight, cellWidht, cellHeight);
-
-        ctx.stroke();
+        // if no matching boardObjects, then draw a free cell (some of the sample levels are like that)
+        ctx.drawImage(sprite, 0, 0, 32, 32, y * cellWidht, x * cellHeight, cellWidht, cellHeight);
       }
 
       function drawBoard() {
-        for (var i = 0; i < board.Height; i++) {
-          if (!(board.L[i] && board.L[i].length > 0)) {
-            board.L[i] = new Array(board.Widht + 1).join(" ");
+        for (var i = 0; i < level.Height; i++) {
+          if (!(board[i] && board[i].length > 0)) {
+            board[i] = new Array(level.Width + 1).join(" ");
           }
-          for (var j = 0; j < board.Width; j++) {
+          for (var j = 0; j < level.Width; j++) {
             drawCell(i, j);
           }
         };
       }
 
+      String.prototype.replaceAt = function (index, character) {
+        return this.substr(0, index) + character + this.substr(index + character.length);
+      }
+
       function move(from, to) {
         var newFromObject, newToObject;
 
-        switch (board.L[from.x][from.y]) {
+        switch (board[from.x][from.y]) {
         case boardObjects.player:
           newFromObject = 'freeCell';
           newToObject = 'player';
           break;
         case boardObjects.playerOnSpot:
-          newFromObject = boardObjects.spot;
+          newFromObject = 'spot';
           newToObject = 'player';
           break;
         case boardObjects.crate:
-          newFromObject = boardObjects.freeCell;
-          newToObject = 'create';
+          newFromObject = 'freeCell';
+          newToObject = 'crate';
           break
         case boardObjects.crateOnSpot:
-          newFromObject = boardObjects.spot;
-          newToObject = 'player';
+          newFromObject = 'spot';
+          newToObject = 'crate';
           break;
         }
 
-        if (board.L[to.x][to.y] == boardObjects.spot) {
+        if (board[to.x][to.y] == boardObjects.spot) {
           newToObject += 'OnSpot';
         }
 
-        board.L[from.x][from.y] = boardObjects[newFromObject];
-        board.L[to.x][to.y] = boardObjects[newToObject];
+        // board[from.x][from.y] = boardObjects[newFromObject];
+        // board[to.x][to.y] = boardObjects[newToObject];
+
+        // the ugliest thing I have ever wrote. the above simply does not work in js despite being logical.
+        board[from.x] = board[from.x].replaceAt(from.y, boardObjects[newFromObject]);
+        board[to.x] = board[to.x].replaceAt(to.y, boardObjects[newToObject]);
       }
 
       function possibleMovement(object, vector) {
@@ -123,11 +94,11 @@ angular.module('SokobanBoardDirective', []).directive('sokobanBoard', function (
           y: object.y + vector.y
         };
 
-        if (board.L[targetCell.x][targetCell.y] == boardObjects.wall) {
+        if (board[targetCell.x][targetCell.y] == boardObjects.wall) {
           return false;
         }
-        if (board.L[targetCell.x][targetCell.y] == boardObjects.freeCell ||
-          board.L[targetCell.x][targetCell.y] == boardObjects.spot) {
+        if (board[targetCell.x][targetCell.y] == boardObjects.freeCell ||
+          board[targetCell.x][targetCell.y] == boardObjects.spot) {
           move(object, targetCell);
           return true;
         }
@@ -140,13 +111,18 @@ angular.module('SokobanBoardDirective', []).directive('sokobanBoard', function (
 
       function movePlayer(vector) {
         var player = {};
-        for (var i = 0; i < board.L.length; i++) {
-          for (var j = 0; j < board.L[i].length; j++) {
-            if (board.L[i][j] == boardObjects.player) {
+        for (var i = 0; i < board.length; i++) {
+          for (var j = 0; j < board[i].length; j++) {
+            if (board[i][j] == boardObjects.player || board[i][j] == boardObjects.playerOnSpot) {
               player.x = i;
               player.y = j;
 
-              possibleMovement(player, vector);
+              var currentBoard = board.slice();
+
+              if (possibleMovement(player, vector)) {
+                movesHistory.push(currentBoard);
+                scope.makeProgress(currentBoard, level._id);
+              }
               return;
             }
           };
@@ -176,41 +152,67 @@ angular.module('SokobanBoardDirective', []).directive('sokobanBoard', function (
       }
 
       function onKeyPressed(e) {
-        if (e.keyCode < 37 || 40 < e.keyCode) {
-          return;
-        }
-        var vector = getMovementVector(e.keyIdentifier.toLowerCase());
+        if (37 <= e.keyCode && e.keyCode <= 40) {
+          var vector = getMovementVector(e.keyIdentifier.toLowerCase());
 
-        movePlayer(vector);
-        drawBoard();
+          movePlayer(vector);
+          drawBoard();
+
+          if (gameCompleted()) {
+            alert('Success');
+            window.removeEventListener('keydown', onKeyPressed, false);
+
+            scope.finishLevel(board);
+          }
+
+          e.preventDefault();
+          return false;
+        } else if (e.keyCode == 90 && e.ctrlKey) {
+          if (movesHistory && movesHistory.length) {
+            board = movesHistory.pop().slice();
+
+            drawBoard();
+          }
+        };
       }
 
-      function draw() {
-        var canvas = element[0].childNodes[1];
+      function gameCompleted() {
+        for (var i = 0; i < board.length; i++) {
+          for (var j = 0; j < board[i].length; j++) {
+            if (board[i][j] == boardObjects.crate) {
+              return false;
+            }
+          };
+        };
+        return true;
+      }
+
+      window.startGame = function startGame(lvl, usr) {
+        var canvas = document.getElementById('gameCanvas');
+
+        canvas.height = canvas.width;
+
+        level = lvl;
+        board = level.L;
+
+        user = usr;
 
         if (canvas.getContext) {
           ctx = canvas.getContext('2d');
 
-          cellHeight = canvas.height / board.Height;
-          cellWidht = canvas.width / board.Width;
+          cellHeight = canvas.height / level.Height;
+          cellWidht = canvas.width / level.Width;
 
-          // Draw the background
-          drawBoard();
 
-          // defaultPositions();
-
-          // // Draw pieces
-          // pieces = new Image();
-          // pieces.src = 'pieces.png';
-          // pieces.onload = drawPieces;
+          sprite = new Image();
+          sprite.src = 'assets/sprite.jpg';
+          sprite.onload = drawBoard;
 
           window.addEventListener('keydown', onKeyPressed, false);
         } else {
           alert("Canvas not supported!");
         }
       }
-
-      draw();
     }
   };
-});
+}]);

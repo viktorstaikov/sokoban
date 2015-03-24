@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var progressSchema = Schema({
 	userId: Schema.Types.ObjectId,
 	levelId: Schema.Types.ObjectId,
-	state: Number,
+	state: Number, // 2 - completed, 1 - started, 0 - nothing
 	board: [String]
 });
 
