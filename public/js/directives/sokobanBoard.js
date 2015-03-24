@@ -153,6 +153,7 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
       }
 
       function onKeyPressed(e) {
+        console.log(e);
         if (37 <= e.keyCode && e.keyCode <= 40) {
           var vector = getMovementVector(e.keyIdentifier.toLowerCase());
 
@@ -161,6 +162,7 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
 
           if (possibleWin && gameCompleted()) {
             possibleWin = false;
+            level.state = 2;
 
             alert('Success');
             window.removeEventListener('keydown', onKeyPressed, false);
@@ -170,7 +172,7 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
 
           e.preventDefault();
           return false;
-        } else if (e.keyCode == 90 && e.ctrlKey) {
+        } else if (e.keyCode == 85) {
           if (movesHistory && movesHistory.length > 1) {
             movesHistory.pop();
             board = movesHistory[movesHistory.length - 1].slice();

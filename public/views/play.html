@@ -1,23 +1,24 @@
 <div id="gameSection" ng-show="levelSelected">
     <sokoban-board></sokoban-board>
-    <nav class="col-sm-offset-8">
-        <ul class="list-group">
-            <li ng-repeat="level in levels" class="list-group-item">
-                <level-details></level-details>
-            </li>
-        </ul>
-    </nav>
+    <div class="col-sm-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">How to play</h3>
+            </div>
+            <div class="panel-body">
+                You're supposed to the "warehouse keeper" and you must to push the "boxes" to its target cells. Use the arrow keys to control the "warehouse keeper" in all four directions. The "boxes" can only push one or more at a time, and to can push boxes they must have at least one space behind them in the direction of thrust. In case of mistakes, press "U" for undo.
+            </div>
+        </div>
+        <button type="button" class="btn btn-default" aria-label="Back" ng-click="back()">
+            <span class="" aria-hidden="true">Back</span>
+        </button>
+    </div>
 </div>
 <div class="col-sm-8 col-sm-offset-2" ng-hide="levelSelected">
     <h1>Choose a level to play <small>or continue an old one...</small></h1>
     <ul class="list-group">
         <li ng-repeat="level in levels" class="list-group-item">
             <level-details></level-details>
-            <!-- {{level.Name}} ({{level.Height}}x{{level.Width}})
-            <a class="badge btn btn-default" ng-click="restart(level)">Restart</a>
-            <a class="badge btn btn-default" ng-click="start(level)" ng-show="level.state == 0">Start</a>
-            <a class="badge btn btn-default" ng-click="continue(level)" ng-show="level.state == 1">Continue</a>
-            <a class="badge btn btn-default" ng-click="continue(level)" ng-show="level.state == 2">Completed</a> -->
         </li>
     </ul>
 </div>

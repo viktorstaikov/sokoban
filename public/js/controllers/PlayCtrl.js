@@ -30,6 +30,10 @@ angular.module('PlayCtrl', []).controller('PlayController', ['$scope', 'LevelFac
 			ProgressFactory.update($scope.user._id, lvlId, board, 2);
 		}
 
+		$scope.back = function () {
+			$scope.levelSelected = false;
+		}
+
 		$scope.user = AuthenticationService.getUser();
 
 		LevelFactory.getAll()
