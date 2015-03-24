@@ -3,13 +3,23 @@ angular.module('PlayCtrl', []).controller('PlayController', ['$scope', 'LevelFac
 		$scope.currentLevel = null;
 		$scope.levelSelected = false;
 
-		$scope.selectLevel = function (level) {
+		$scope.start = function (level) {
+			level.state = 1;
 			$scope.levelSelected = true;
-			$scope.currentLevel = level;
-			ProgressFactory.create($scope.user._id, $scope.currentLevel._id, level.L)
-				.success(function () {
-					window.startGame(level, $scope.user);
-				});
+			ProgressFactory.create($scope.user._id, level._id, level.L);
+			window.startGame(level, $scope.user);
+		}
+
+		$scope.continue = function (level) {
+			$scope.levelSelected = true;
+			window.startGame(level, $scope.user);
+		}
+
+		$scope.restart = function (level) {
+			level.state = 0;
+			$scope.levelSelected = true;
+			ProgressFactory.update($scope.user._id, level._id, level.L, 0);
+			window.startGame(level, $scope.user);
 		}
 
 		$scope.makeProgress = function (board, lvlId) {
@@ -38,6 +48,7 @@ angular.module('PlayCtrl', []).controller('PlayController', ['$scope', 'LevelFac
 							}
 						};
 					};
+					console.log($scope.levels);
 				});
 			});
 	}

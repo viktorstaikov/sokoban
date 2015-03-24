@@ -1,15 +1,15 @@
-angular.module('PlayCtrl').directive('sokobanBoard', [function () {
+angular.module('PlayCtrl').directive('sokobanBoard', function () {
   return {
-    restrict: 'AE',
+    restrict: 'E',
     templateUrl: 'js/directives/templates/sokoban-board-template.html',
     controller: 'PlayController',
     scope: {},
     link: function (scope, element, attrs) {
       var level,
-        user,
         board = [''],
         movesHistory = [],
-        sprite;
+        sprite,
+        possibleWin = false;
 
       var boardObjects = {
         freeCell: " ",
@@ -55,6 +55,7 @@ angular.module('PlayCtrl').directive('sokobanBoard', [function () {
       }
 
       function move(from, to) {
+
         var newFromObject, newToObject;
 
         switch (board[from.x][from.y]) {
@@ -73,10 +74,12 @@ angular.module('PlayCtrl').directive('sokobanBoard', [function () {
         case boardObjects.crateOnSpot:
           newFromObject = 'spot';
           newToObject = 'crate';
+          possibleWin = false;
           break;
         }
 
         if (board[to.x][to.y] == boardObjects.spot) {
+          possibleWin = true;
           newToObject += 'OnSpot';
         }
 
@@ -117,11 +120,9 @@ angular.module('PlayCtrl').directive('sokobanBoard', [function () {
               player.x = i;
               player.y = j;
 
-              var currentBoard = board.slice();
-
               if (possibleMovement(player, vector)) {
-                movesHistory.push(currentBoard);
-                scope.makeProgress(currentBoard, level._id);
+                movesHistory.push(board);
+                scope.makeProgress(board, level._id);
               }
               return;
             }
@@ -158,19 +159,21 @@ angular.module('PlayCtrl').directive('sokobanBoard', [function () {
           movePlayer(vector);
           drawBoard();
 
-          if (gameCompleted()) {
+          if (possibleWin && gameCompleted()) {
+            possibleWin = false;
+
             alert('Success');
             window.removeEventListener('keydown', onKeyPressed, false);
 
-            scope.finishLevel(board);
+            scope.finishLevel(board, level._id);
           }
 
           e.preventDefault();
           return false;
         } else if (e.keyCode == 90 && e.ctrlKey) {
-          if (movesHistory && movesHistory.length) {
-            board = movesHistory.pop().slice();
-
+          if (movesHistory && movesHistory.length > 1) {
+            movesHistory.pop();
+            board = movesHistory[movesHistory.length - 1].slice();
             drawBoard();
           }
         };
@@ -189,20 +192,20 @@ angular.module('PlayCtrl').directive('sokobanBoard', [function () {
 
       window.startGame = function startGame(lvl, usr) {
         var canvas = document.getElementById('gameCanvas');
-
         canvas.height = canvas.width;
 
         level = lvl;
-        board = level.L;
-
-        user = usr;
+        if (level.state && level.board && level.board.length) {
+          board = level.board.slice();
+        } else {
+          board = level.L.slice();
+        }
 
         if (canvas.getContext) {
           ctx = canvas.getContext('2d');
 
           cellHeight = canvas.height / level.Height;
           cellWidht = canvas.width / level.Width;
-
 
           sprite = new Image();
           sprite.src = 'assets/sprite.jpg';
@@ -215,4 +218,4 @@ angular.module('PlayCtrl').directive('sokobanBoard', [function () {
       }
     }
   };
-}]);
+});

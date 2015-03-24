@@ -1,0 +1,5 @@
+<a class="glyphicon glyphicon-repeat btn btn-default" ng-click="restart(level)" ng-show="level.state > 0"></a>
+<a class="glyphicon glyphicon-play btn btn-default" ng-click="start(level)" ng-show="level.state == 0"></a>
+<a class="glyphicon glyphicon-share-alt btn btn-default" ng-click="continue(level)" ng-show="level.state == 1"></a>
+<a class="glyphicon glyphicon-ok btn btn-default" ng-click="continue(level)" ng-show="level.state == 2"></a>
+<span>{{level.Name}} ({{level.Height}}x{{level.Width}})</span>
