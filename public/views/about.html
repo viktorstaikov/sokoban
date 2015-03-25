@@ -1,17 +1,8 @@
 <article class="col-sm-8 col-sm-offset-2">
-    <h2>The author</h2>
-    <section>
-        
-    </section>
-
     <h2>The game</h2>
-    <p>Sokoban (倉庫番 sōkoban?, warehouse keeper) is a type of transport puzzle, in which the player pushes boxes or crates around in a warehouse, trying to get them to storage locations. The puzzle is usually implemented as a video game.
-
-    Sokoban was created in 1981 by Hiroyuki Imabayashi, and published in 1982 by Thinking Rabbit, a software house based in Takarazuka, Japan.</p>
-
+    <p>Sokoban (倉庫番 sōkoban?, warehouse keeper) is a type of transport puzzle, in which the player pushes boxes or crates around in a warehouse, trying to get them to storage locations. The puzzle is usually implemented as a video game. Sokoban was created in 1981 by Hiroyuki Imabayashi, and published in 1982 by Thinking Rabbit, a software house based in Takarazuka, Japan.</p>
     <h2>Rules</h2>
     <p>You're supposed to the "warehouse keeper" and you must to push the "boxes" to its target cells. Use the arrow keys to control the "warehouse keeper" in all four directions. The "boxes" can only push one or more at a time, and to can push boxes they must have at least one space behind them in the direction of thrust. In case of mistakes, press "U" for undo.</p>
-
     <h2>Credits</h2>
     <p>
         <ul>
@@ -20,4 +11,25 @@
             <li><a href="http://sokoban.online.fr/">http://sokoban.online.fr/</a></li>
         </ul>
     </p>
-</article>
+    <h2>Adding a new level</h2>
+    <p>
+        Adding new level is achieved by making POST request to /api/level/single. This endpoint requires "Authorization" header to be provided with the value "JWT {token}" (the token is obtained through /login request). The body of the request must be like:</p>
+    <pre>{
+  "Name": "Basic",
+  "Width": 9,
+  "Height": 10,
+  "L": [
+    "  #####",        //free cell:             " "
+    "  #   #",        //wall:                  "#"
+    "  #   #",        //player:                "@"
+    "###   ###",      //box:                   "$"
+    "#       #",      //target cell:           "."
+    "#       #",      //box on target cell:    "*"
+    "#  ...  #",      //player on target cell: "+"
+    "###$$$###",
+    "  # @ #",
+    "  #####"
+  ]
+}</pre>
+    <p>
+        Additionally, you can add more than one level per request. The endpoint is /api/level/many, method - POST. Again, it requres "Authorization" header. The body is an array of levels (same objects like the other endpoint).</p>
