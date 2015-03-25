@@ -1,6 +1,10 @@
 describe('Not authenticated user - ', function () {
     var username = 'User' + Date.now();
 
+    beforeEach(function () {
+        browser.manage().deleteAllCookies();
+    });
+
     it('Auto navigate to Home view', function () {
         browser.get('http://localhost:8080')
 
@@ -33,8 +37,6 @@ describe('Not authenticated user - ', function () {
         element(by.model('user.password')).sendKeys(username);
 
         element(by.css('input[type=submit]')).click();
-
-        // browser.pause();
 
         expect(browser.getLocationAbsUrl())
             .toBe('/login');
