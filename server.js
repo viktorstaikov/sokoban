@@ -13,11 +13,8 @@ var port = process.env.PORT || 8080;
 var db = require('./config/db');
 mongoose.connect(db.url);
 
-var passportConfig = require('./config/passport');
-passportConfig(passport);
-
 //middlewares ==============================================
-app.use(morgan('dev'));
+app.use(morgan('dev')); //request logging
 
 app.use(bodyParser.json()); // standart JSON media type
 app.use(bodyParser.json({
@@ -37,7 +34,6 @@ require('./app/routes')(app, passport);
 
 // api =====================================================
 require('./app/api/routes.js')(app, passport);
-
 
 // start app ===============================================
 app.listen(port);

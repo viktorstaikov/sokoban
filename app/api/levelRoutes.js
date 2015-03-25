@@ -1,18 +1,19 @@
 var express = require('express'),
 	router = express.Router();
-var utils = require('../utils/middlewares');
 
 var Level = require('../models/level');
 
-
+// all endpoints about levels, will be under /api/levels/*
 module.exports = function (app, passport) {
 
+	// get all
 	router.get('/', function (req, res) {
 		Level.find(function (err, result) {
 			handleResult(err, result, res);
 		});
 	});
 
+	// get single
 	router.get('/:id', function (req, res) {
 		Level.findOne({
 			_id: req.params.id
@@ -21,6 +22,7 @@ module.exports = function (app, passport) {
 		});
 	});
 
+	// add single
 	router.post('/single', function (req, res) {
 		var newLevel = new Level(req.body);
 		if (!newLevel.valid()) {
@@ -34,6 +36,7 @@ module.exports = function (app, passport) {
 		});
 	});
 
+	// add sample levels from /app/models/sample-levels.js
 	router.post('/bootstrap', function (req, res) {
 		var rawLevels = require('../models/sample-levels');
 
@@ -46,12 +49,14 @@ module.exports = function (app, passport) {
 		bulkInsert(req, res, rawLevels);
 	})
 
+	// add many levels from request
 	router.post('/many', function (req, res) {
 		var rawLevels = req.body;
 
 		bulkInsert(rq, res, rawLevels);
 	})
 
+	// delete single, added for convinience
 	router.delete('/:id', function (req, res) {
 		Level.remove({
 			_id: req.params.id

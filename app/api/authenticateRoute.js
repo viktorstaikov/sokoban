@@ -1,6 +1,6 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
-
+var validator = require('validator');
 var secret = '1234567890';
 
 var authenticationHelper = require('../auth/authenticationHelper');
@@ -10,6 +10,7 @@ var Token = require('../models/token');
 
 module.exports = function (app, passport) {
 
+	// secure all /api routes
 	app.all('/api*', function (req, res, next) {
 		var authorizationHeader = req.headers['authorization'];
 
@@ -35,7 +36,7 @@ module.exports = function (app, passport) {
 		});
 	});
 
-
+	// login user
 	app.post('/login', function (req, res) {
 		var email = req.body.email;
 		var password = req.body.password;
@@ -44,9 +45,9 @@ module.exports = function (app, passport) {
 			return res.status(400).send("Bad request. Email and password must be provided.");
 		}
 
-		// if (!validator.isEmail(email)) {
-		// 	return res.status(400).send("Bad request. Invalid email.");
-		// }
+		if (!validator.isEmail(email)) {
+			return res.status(400).send("Bad request. Invalid email.");
+		}
 
 		User.findOne({
 			email: email
@@ -76,6 +77,7 @@ module.exports = function (app, passport) {
 		});
 	});
 
+	// register new user
 	app.post('/signup', function (req, res) {
 		var email = req.body.email;
 		var password = req.body.password;
@@ -84,9 +86,9 @@ module.exports = function (app, passport) {
 			return res.status(400).send("Bad request. Email and password must be provided.");
 		}
 
-		// if (!validator.isEmail(email)) {
-		// 	return res.status(400).send("Bad request. Invalid email.");
-		// }
+		if (!validator.isEmail(email)) {
+			return res.status(400).send("Bad request. Invalid email.");
+		}
 
 		User.findOne({
 			'email': email
@@ -114,7 +116,6 @@ module.exports = function (app, passport) {
 					});
 				});
 			}
-
 		});
 	});
 };

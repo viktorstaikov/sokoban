@@ -9,7 +9,7 @@ var authentication = require('./authenticateRoute');
 
 
 module.exports = function (app, passport) {
-
+	// initialize all routes under /api/*
 	authentication(app, passport);
 
 	levelRoutes(apiRouter, passport);

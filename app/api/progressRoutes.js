@@ -1,10 +1,11 @@
 var router = require('express').Router();
-var utils = require('../utils/middlewares');
 
 var Progress = require('../models/progress');
 
+// all endpoints about progress, will be under /api/progress/*
 module.exports = function (app, passport) {
 
+	// get progress record about User(userId) on Level(levelId) or progress._id
 	router.get('/', function (req, res) {
 		var filter = {};
 		if (req.query.userId) {
@@ -22,6 +23,7 @@ module.exports = function (app, passport) {
 		})
 	});
 
+	// update progress record
 	router.put('/', function (req, res) {
 		var filter = {};
 		if (req.query._id || req.body._id) {
@@ -55,6 +57,7 @@ module.exports = function (app, passport) {
 		});
 	});
 
+	// create new progress record, used when the user start level for the first time
 	router.post('/', function (req, res) {
 		var newProgress = new Progress(req.body);
 

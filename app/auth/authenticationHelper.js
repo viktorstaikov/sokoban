@@ -6,8 +6,9 @@ var secret = '1234567890';
 var User = require('../models/user');
 var Token = require('../models/token');
 
+// operations with tokens 
 module.exports = {
-	// validates tokens
+	// checks if the token is valid
 	validToken: function (jwtToken, done) {
 		Token.findOne({
 			token: jwtToken
@@ -54,6 +55,8 @@ module.exports = {
 
 			var expire = moment(Date.now()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss');
 			if (token) {
+				// this extention is to not deal with expired tokens
+				// possible db fluding of expired tokens
 				Token.update(token, {
 					expire: expire
 				});

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+// progress record - keep User's progress on particular Level
 var progressSchema = Schema({
 	userId: Schema.Types.ObjectId,
 	levelId: Schema.Types.ObjectId,
