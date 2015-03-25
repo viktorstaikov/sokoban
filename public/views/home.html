@@ -2,11 +2,11 @@
     <h1>Sokoban</h1>
     <h2>Game of... Boxes</h2>
     <div class="btn-group" role="group" ng-hide="user">
-        <a href="#/login" class="btn btn-default">Login</a>
-        <a href="#/signup" class="btn btn-default">Signup</a>
+        <a href="#/login" class="btn btn-default" id="loginBtn">Login</a>
+        <a href="#/signup" class="btn btn-default" id="signupBtn">Signup</a>
     </div>
     <div ng-show="user">
         <h3>Greetings, {{user.name}}!!!</h3>
-        <span>Not you? <a class="btn btn-default" ng-click="logout()">Logout</a></span>
+        <span>Not you? <a class="btn btn-default" id="logoutBtn" ng-click="logout()">Logout</a></span>
     </div>
 </div>
