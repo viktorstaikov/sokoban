@@ -1,7 +1,7 @@
 angular.module('PlayCtrl').directive('sokobanBoard', function () {
   return {
     restrict: 'E',
-    templateUrl: 'js/directives/templates/sokoban-board-template.html',
+    templateUrl: 'play/templates/sokoban-board-template.html',
     controller: 'PlayController',
     scope: {},
     link: function (scope, element, attrs) {
@@ -22,6 +22,15 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
       }
 
       var cellHeight, cellWidht;
+
+
+      String.prototype.replaceAt = function (index, character) {
+        return this.substr(0, index) + character + this.substr(index + character.length);
+      }
+
+      Array.prototype.getCopy = function () {
+        return this.slice();
+      }
 
       function drawCell(x, y) {
         var character = board[x][y];
@@ -48,10 +57,6 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
             drawCell(i, j);
           }
         };
-      }
-
-      String.prototype.replaceAt = function (index, character) {
-        return this.substr(0, index) + character + this.substr(index + character.length);
       }
 
       function move(from, to) {
@@ -121,8 +126,9 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
               player.y = j;
 
               if (possibleMovement(player, vector)) {
-                movesHistory.push(board);
-                scope.makeProgress(board, level._id);
+                var newBoard = board.getCopy();
+                movesHistory.push(newBoard);
+                scope.makeProgress(newBoard, level._id);
               }
               return;
             }
@@ -153,7 +159,7 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
       }
 
       function onKeyPressed(e) {
-        console.log(e);
+
         if (37 <= e.keyCode && e.keyCode <= 40) {
           var vector = getMovementVector(e.keyIdentifier.toLowerCase());
 
@@ -175,7 +181,7 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
         } else if (e.keyCode == 85) {
           if (movesHistory && movesHistory.length > 1) {
             movesHistory.pop();
-            board = movesHistory[movesHistory.length - 1].slice();
+            board = movesHistory[movesHistory.length - 1].getCopy();
             drawBoard();
           }
         };
@@ -198,10 +204,12 @@ angular.module('PlayCtrl').directive('sokobanBoard', function () {
 
         level = lvl;
         if (level.state && level.board && level.board.length) {
-          board = level.board.slice();
+          board = level.board.getCopy();
         } else {
-          board = level.L.slice();
+          board = level.L.getCopy();
         }
+        movesHistory = [];
+        possibleWin = false;
 
         if (canvas.getContext) {
           ctx = canvas.getContext('2d');

@@ -1,5 +1,5 @@
 describe('site navigation', function () {
-    var username = 'User' + Date.now;
+    var username = 'User' + Date.now();
 
     it('Auto navigate to Home view', function () {
         browser.get('http://localhost:8080')
@@ -34,7 +34,7 @@ describe('site navigation', function () {
 
         element(by.css('input[type=submit]')).click();
 
-        browser.pause();
+        // browser.pause();
 
         expect(browser.getLocationAbsUrl())
             .toBe('/login');
@@ -43,8 +43,8 @@ describe('site navigation', function () {
     it('Login new user', function () {
         browser.get('http://localhost:8080/#/login');
 
-        element(by.model('user.email')).sendKeys(username + '@abv.bg');
-        element(by.model('user.password')).sendKeys(username);
+        element(by.model('email')).sendKeys(username + '@abv.bg');
+        element(by.model('password')).sendKeys(username);
 
         element(by.css('input[type=submit]')).click();
 

@@ -2,11 +2,11 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider',
 	function ($routeProvider, $locationProvider) {
 		$routeProvider
 			.when('/home', {
-				templateUrl: 'views/home.html',
+				templateUrl: 'home/home.html',
 				controller: 'MainController'
 			})
 			.when('/play', {
-				templateUrl: 'views/play.html',
+				templateUrl: 'play/play.html',
 				controller: 'PlayController',
 				resolve: {
 					//This function is injected with the AuthService where you'll put your authentication logic
@@ -16,14 +16,14 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider',
 				}
 			})
 			.when('/about', {
-				templateUrl: 'views/about.html'
+				templateUrl: 'about/about.html'
 			})
 			.when('/login', {
-				templateUrl: 'views/login.html',
+				templateUrl: 'login/login.html',
 				controller: 'LoginController'
 			})
 			.when('/signup', {
-				templateUrl: 'views/signup.html'
+				templateUrl: 'signup/signup.html'
 			})
 			.otherwise({
 				redirectTo: '/home'
