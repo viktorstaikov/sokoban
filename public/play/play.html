@@ -1,4 +1,4 @@
-<div id="gameSection" ng-show="levelSelected">
+<section id="gameSection" ng-show="levelSelected">
     <sokoban-board></sokoban-board>
     <div class="col-sm-3">
         <div class="panel panel-default">
@@ -13,12 +13,12 @@
             <span class="" aria-hidden="true">Back</span>
         </button>
     </div>
-</div>
-<div class="col-sm-8 col-sm-offset-2" ng-hide="levelSelected">
+</section>
+<section id="levelsSection" class="col-sm-8 col-sm-offset-2" ng-hide="levelSelected">
     <h1>Choose a level to play <small>or continue an old one...</small></h1>
     <ul class="list-group">
         <li ng-repeat="level in levels" class="list-group-item">
             <level-details></level-details>
         </li>
     </ul>
-</div>
+</section>

@@ -1,4 +1,4 @@
-describe('site navigation', function () {
+describe('Not authenticated user - ', function () {
     var username = 'User' + Date.now();
 
     it('Auto navigate to Home view', function () {
