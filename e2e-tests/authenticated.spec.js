@@ -10,39 +10,68 @@ describe('Authenticated user - ', function () {
 		element(by.css('input[type=submit]')).click();
 	});
 
-	it('Greetings message on Home', function () {
-		// browser.get('http://localhost:8080');
+	describe('Home', function () {
+		it('Greetings message on Home', function () {
+			expect(element(by.id('greetings-wrapper')).isDisplayed()).toBeTruthy();
+		});
 
-		expect(element(by.id('greetings-wrapper')).isDisplayed()).toBeTruthy();
+		it('Logout button works', function () {
+			element(by.id('logoutBtn')).click();
+
+			expect(element(by.id('loginBtn')).isDisplayed).toBeTruthy();
+			expect(element(by.id('signupBtn')).isDisplayed).toBeTruthy();
+
+			expect(element(by.id('loginBtn')).isDisplayed).toBeTruthy();
+			expect(element(by.id('signupBtn')).isDisplayed).toBeTruthy();
+		});
 	});
 
-	it('Logout button works', function () {
-		// browser.get('http://localhost:8080');
+	describe('Play', function () {
+		beforeEach(function () {
+			element(by.css('a[href="#/play"')).click();
+		});
 
-		element(by.id('logoutBtn')).click();
+		it('Play section is available (does not redirect to login)', function () {
+			expect(browser.getLocationAbsUrl())
+				.toBe('/play');
+		});
 
-		expect(element(by.id('loginBtn')).isDisplayed).toBeTruthy();
-		expect(element(by.id('signupBtn')).isDisplayed).toBeTruthy();
+		it('Levels section is not broken', function () {
+			expect(element(by.id('levelsSection')).isDisplayed()).toBeTruthy();
+			expect(element(by.css('ul.list-group')).isDisplayed()).toBeTruthy();
+			expect(element(by.css('li.list-group-item')).isDisplayed()).toBeTruthy();
+		});
 
-		// browser.refresh();
+		describe('Game is started', function () {
+			beforeEach(function () {
+				element(by.css('li a.btn-success')).click();
 
-		expect(element(by.id('loginBtn')).isDisplayed).toBeTruthy();
-		expect(element(by.id('signupBtn')).isDisplayed).toBeTruthy();
-	});
+			});
+			it('Level is started', function () {
+				expect(element(by.id('gameSection')).isDisplayed()).toBeTruthy();
+			});
 
-	it('Play section is available (does not redirect to login)', function () {
-		element(by.css('a[href="#/play"')).click();
+			it('Restart button', function () {
+				element(by.css('a.btn-back')).click();
 
-		expect(browser.getLocationAbsUrl())
-			.toBe('/play');
-	});
+				var restartBtn = element(by.css('li a.btn-warning'));
 
-	it('Levels section is not broken', function () {
-		// browser.get('http://localhost:8080/#/play');
-		element(by.css('a[href="#/play"')).click();
+				expect(restartBtn.isDisplayed()).toBeTruthy();
+				restartBtn.click();
 
-		expect(element(by.id('levelsSection')).isDisplayed()).toBeTruthy();
-		expect(element(by.css('ul.list-group')).isDisplayed()).toBeTruthy();
-		expect(element(by.css('li.list-group-item')).isDisplayed()).toBeTruthy();
+				expect(element(by.id('gameSection')).isDisplayed()).toBeTruthy();
+			});
+
+			it('Continue button', function () {
+				element(by.css('a.btn-back')).click();
+
+				var continueBtn = element(by.css('li a.btn-info'));
+
+				expect(continueBtn.isDisplayed()).toBeTruthy();
+				continueBtn.click();
+
+				expect(element(by.id('gameSection')).isDisplayed()).toBeTruthy();
+			});
+		});
 	});
 });
